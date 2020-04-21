@@ -1,0 +1,59 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Categoria;
+use Illuminate\Http\Request;
+
+class CategoriaController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $categorias = Categoria::all();
+        if (request()->wantsJson())
+            {
+                 return $categorias;
+            }
+
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $categoria = Categoria::create($request->all());
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Categoria  $categoria
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Categoria $categoria)
+    {
+        $categoria->update($request->all());
+    }
+
+    public function desactivar(Request $request, Categoria $categoria)
+    {
+        $categoria->condicion = '0';
+        $categoria->save();
+    }
+
+    public function activar(Request $request, Categoria $categoria)
+    {
+        $categoria->condicion = '1';
+        $categoria->save();
+    }
+}
