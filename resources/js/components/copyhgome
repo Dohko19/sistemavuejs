@@ -176,11 +176,11 @@
         methods : {
             listarCategoria (){
                 let me=this;
-                axios.get('/categoria').then(res => {
-                    me.arrayCategoria = res.data;
+                axios.get('/categoria').then(function (response) {
+                    me.arrayCategoria = response.data;
                 })
-                    .catch(err => {
-                        console.log(err);
+                    .catch(function (error) {
+                        console.log(error);
                     });
             },
             registrarCategoria(){
@@ -193,11 +193,11 @@
                 axios.post('/categoria/registrar',{
                     'nombre': this.nombre,
                     'descripcion': this.descripcion
-                }).then(res => {
+                }).then(function (response) {
                     me.cerrarModal();
                     me.listarCategoria();
-                }).catch(err => {
-                    console.log(err);
+                }).catch(function (error) {
+                    console.log(error);
                 });
             },
             validarCategoria(){
