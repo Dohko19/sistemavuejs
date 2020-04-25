@@ -44,14 +44,16 @@
     <!-- Bootstrap and necessary plugins -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/plantilla.js') }}"></script>
- {{--    <script src="/js/jquery.min.js"></script>
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/pace.min.js"></script>
-    <!-- Plugins and scripts required by all views -->
-    <script src="/js/Chart.min.js"></script>
-    <!-- GenesisUI main scripts -->
-    <script src="/js/template.js"></script> --}}
+{{--    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>--}}
+
+    {{--    <script src="/js/jquery.min.js"></script>
+       <script src="/js/popper.min.js"></script>
+       <script src="/js/bootstrap.min.js"></script>
+       <script src="/js/pace.min.js"></script>
+       <!-- Plugins and scripts required by all views -->
+       <script src="/js/Chart.min.js"></script>
+       <!-- GenesisUI main scripts -->
+       <script src="/js/template.js"></script> --}}
 </body>
 
 </html>

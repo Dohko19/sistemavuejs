@@ -26,6 +26,9 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "sweetalert2": "^9.10.12",
+        "vue-swal": "^1.0.0",
+        "vue-sweetalert2": "^3.0.3",
         "vue2-animate": "^2.1.3"
     }
 }
