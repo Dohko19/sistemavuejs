@@ -14,12 +14,22 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        $categorias = Categoria::all();
+        $categorias = Categoria::paginate(2);
         if (request()->wantsJson())
             {
-                 return $categorias;
+                   return ['pagination'=> [
+                       'total' => $categorias->total(),
+                       'current_page' => $categorias->currentPage(),
+                       'per_page' => $categorias->perPage(),
+                       'last_page' => $categorias->lastPage(),
+                       'from' => $categorias->firstItem(),
+                       'to' => $categorias->lastItem(),
+                   ],
+                       'categorias' => $categorias
+                   ];
             }
-
+//
+        return redirect('/');
     }
 
     /**
@@ -30,7 +40,7 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
-
+        if (!$request->ajax()) return redirect('/');
         $categoria = Categoria::create($request->all());
 
     }

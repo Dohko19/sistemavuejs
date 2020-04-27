@@ -1,7 +1,7 @@
 require('./bootstrap');
 
 import Vue from 'vue';
-// require('vue2-animate/dist/vue2-animate.min.css');
+require('vue2-animate/dist/vue2-animate.min.css')
 import swal from 'sweetalert2'
 window.swal = swal;
 

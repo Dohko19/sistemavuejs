@@ -163,11 +163,31 @@
                 errorCategoria : 0,
                 errorMostrarMsjCategoria : [],
                 categoria_id: 0,
+                pagination: {
+                    'total': 0,
+                    'current_page': 0,
+                    'per_page': 0,
+                    'last_page': 0,
+                    'from': 0,
+                    'to': 0,
+                },
+                offset: 3,
+            }
+        },
+        computed: {
+            isActived: function () {
+                return this.pagination.current_page;
+            },
+            pagesNumber: function(){
+                if(!this.pagination.to)
+                {
+                    return [];
+                }
             }
         },
         methods : {
             listarCategoria (){
-                let me=this;
+                let me = this;
                 axios.get('/categoria').then(res => {
                     me.arrayCategoria = res.data;
                 })
@@ -236,11 +256,22 @@
                             'id': id,
                         }).then(res => {
                             me.listarCategoria();
-                            swalWithBootstrapButtons.fire(
-                                'Desactivado!',
-                                'El registro a sido desactivado',
-                                'success'
-                            )
+                            const Toast = swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                                onOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', swal.stopTimer)
+                                    toast.addEventListener('mouseleave', swal.resumeTimer)
+                                }
+                            })
+
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Desactivado Correctamente'
+                            })
                         }).catch(err => {
                             swalWithBootstrapButtons.fire(
                                 'Ocurrio un error!',
@@ -275,11 +306,22 @@
                             'id': id,
                         }).then(res => {
                             me.listarCategoria();
-                            swalWithBootstrapButtons.fire(
-                                'Activado!',
-                                'El registro a sido activado',
-                                'success'
-                            )
+                            const Toast = swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                                onOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', swal.stopTimer)
+                                    toast.addEventListener('mouseleave', swal.resumeTimer)
+                                }
+                            })
+
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Activado Correctamente'
+                            })
                         }).catch(err => {
                             swalWithBootstrapButtons.fire(
                                 'Ocurrio un error!',
