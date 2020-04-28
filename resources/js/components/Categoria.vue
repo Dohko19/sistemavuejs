@@ -183,13 +183,35 @@
                 {
                     return [];
                 }
+                var from = this.pagination.current_page - this.offset;
+                if(from < 1)
+                {
+                    from = 1;
+                }
+
+                var to = from + (this.offset * 2);
+                if (to >= this.pagination.last_page)
+                {
+                    to = this.pagination.last_page;
+                }
+
+                var pagesArray = [];
+                while(from <= to)
+                {
+                    pagesArray.push(from);
+                    from++;
+                }
+                return pagesArray;
             }
         },
         methods : {
-            listarCategoria (){
+            listarCategoria (page){
                 let me = this;
-                axios.get('/categoria').then(res => {
-                    me.arrayCategoria = res.data;
+                var url = '/categoria?=page='+page;
+                axios.get(url).then(res => {
+                    var respuesta = res.data;
+                    me.arrayCategoria = respuesta.categorias.data;
+                    me.pagination = respuesta.pagination;
                 })
                     .catch(err => {
                         console.log(err);
@@ -212,6 +234,11 @@
                 }).catch(err => {
                     console.log(err);
                 });
+            },
+            cambiarPagina(page){
+              let me = this;
+              me.pagination.current_page = page;
+              me.listarCategoria(page);
             },
             actualizarCategoria(){
                 if (this.validarCategoria()){
