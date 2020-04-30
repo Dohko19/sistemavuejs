@@ -2071,7 +2071,9 @@ __webpack_require__.r(__webpack_exports__);
         'from': 0,
         'to': 0
       },
-      offset: 3
+      offset: 3,
+      criterio: 'nombre',
+      buscar: ''
     };
   },
   computed: {
@@ -2108,7 +2110,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     listarCategoria: function listarCategoria(page) {
       var me = this;
-      var url = '/categoria?=page=' + page;
+      var url = '/categoria?page=' + page;
       axios.get(url).then(function (res) {
         var respuesta = res.data;
         me.arrayCategoria = respuesta.categorias.data;
@@ -2116,6 +2118,11 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (err) {
         console.log(err);
       });
+    },
+    cambiarPagina: function cambiarPagina(page) {
+      var me = this;
+      me.pagination.current_page = page;
+      me.listarCategoria(page);
     },
     registrarCategoria: function registrarCategoria() {
       var _this = this;
@@ -2136,11 +2143,6 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (err) {
         console.log(err);
       });
-    },
-    cambiarPagina: function cambiarPagina(page) {
-      var me = this;
-      me.pagination.current_page = page;
-      me.listarCategoria(page);
     },
     actualizarCategoria: function actualizarCategoria() {
       var _this2 = this;
@@ -41920,8 +41922,7 @@ var render = function() {
                               click: function($event) {
                                 $event.preventDefault()
                                 return _vm.cambiarPagina(
-                                  _vm.pagination.current_page <
-                                    _vm.pagination.last_page
+                                  _vm.pagination.current_page + 1
                                 )
                               }
                             }

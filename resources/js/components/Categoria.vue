@@ -77,7 +77,7 @@
                                 <a class="page-link" href="#" @click.prevent="cambiarPagina(page)" v-text="page"></a>
                             </li>
                             <li class="page-item" v-if="pagination.current_page < pagination.last_page">
-                                <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page < pagination.last_page)">Sig</a>
+                                <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page + 1)">Sig</a>
                             </li>
                         </ul>
                     </nav>
@@ -163,6 +163,8 @@
                     'to': 0,
                 },
                 offset: 3,
+                criterio: 'nombre',
+                buscar: ''
             }
         },
         computed: {
@@ -198,7 +200,7 @@
         methods : {
             listarCategoria(page){
                 let me = this;
-                var url = '/categoria?=page=' + page;
+                var url = '/categoria?page=' + page;
                 axios.get(url).then(res => {
                     var respuesta = res.data;
                     me.arrayCategoria = respuesta.categorias.data;
@@ -207,6 +209,11 @@
                     .catch(err => {
                         console.log(err);
                     });
+            },
+            cambiarPagina(page){
+                let me = this;
+                me.pagination.current_page = page;
+                me.listarCategoria(page);
             },
             registrarCategoria(){
                 if (this.validarCategoria()){
@@ -225,11 +232,6 @@
                 }).catch(err => {
                     console.log(err);
                 });
-            },
-            cambiarPagina(page){
-              let me = this;
-              me.pagination.current_page = page;
-              me.listarCategoria(page);
             },
             actualizarCategoria(){
                 if (this.validarCategoria()){
