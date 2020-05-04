@@ -10,13 +10,26 @@ class CategoriaController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return array
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categorias = Categoria::paginate(2);
+
         if (request()->wantsJson())
             {
+                $buscar = $request->buscar;
+                $criterio = $request->criterio;
+
+                if ($buscar == '')
+                {
+                    $categorias = Categoria::orderBy('id', 'DESC')->paginate(5);
+                }
+                else
+                {
+                    $categorias = Categoria::where($criterio, 'LIKE', '%'. $buscar .'%')->orderBy('id', 'DESC')->paginate(5);
+
+                }
                    return ['pagination'=> [
                        'total' => $categorias->total(),
                        'current_page' => $categorias->currentPage(),
