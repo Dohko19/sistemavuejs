@@ -17,30 +17,30 @@ class CategoriaController extends Controller
     {
 
         if (request()->wantsJson())
+        {
+            $buscar = $request->buscar;
+            $criterio = $request->criterio;
+
+            if ($buscar == '')
             {
-                $buscar = $request->buscar;
-                $criterio = $request->criterio;
-
-                if ($buscar == '')
-                {
-                    $categorias = Categoria::orderBy('id', 'DESC')->paginate(5);
-                }
-                else
-                {
-                    $categorias = Categoria::where($criterio, 'LIKE', '%'. $buscar .'%')->orderBy('id', 'DESC')->paginate(5);
-
-                }
-                   return ['pagination'=> [
-                       'total' => $categorias->total(),
-                       'current_page' => $categorias->currentPage(),
-                       'per_page' => $categorias->perPage(),
-                       'last_page' => $categorias->lastPage(),
-                       'from' => $categorias->firstItem(),
-                       'to' => $categorias->lastItem(),
-                   ],
-                       'categorias' => $categorias
-                   ];
+                $categorias = Categoria::orderBy('id', 'DESC')->paginate(5);
             }
+            else
+            {
+                $categorias = Categoria::where($criterio, 'LIKE', '%'. $buscar .'%')->orderBy('id', 'DESC')->paginate(5);
+
+            }
+            return ['pagination'=> [
+                'total' => $categorias->total(),
+                'current_page' => $categorias->currentPage(),
+                'per_page' => $categorias->perPage(),
+                'last_page' => $categorias->lastPage(),
+                'from' => $categorias->firstItem(),
+                'to' => $categorias->lastItem(),
+            ],
+                'categorias' => $categorias
+            ];
+        }
 //
         return redirect('/');
     }
