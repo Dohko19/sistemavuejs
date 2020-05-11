@@ -14,6 +14,7 @@ Vue.use(VueToastr2)
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('categoria', require('./components/Categoria').default);
+Vue.component('articulo', require('./components/Articulo').default);
 
 
 const app = new Vue({

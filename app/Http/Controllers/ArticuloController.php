@@ -50,6 +50,8 @@ class ArticuloController extends Controller
         return redirect('/');
     }
 
+
+
     /**
      * Store a newly created resource in storage.
      *

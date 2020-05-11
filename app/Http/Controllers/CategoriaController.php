@@ -45,6 +45,21 @@ class CategoriaController extends Controller
         return redirect('/');
     }
 
+    public function  selectCategoria(Request $request)
+    {
+        if ($request->wantsJson())
+        {
+            $categorias = Categoria::select('id', 'nombre')
+                ->where('condicion', '1')
+                ->orderBy('nombre', 'ASC')
+                ->get();
+
+            return ['categorias' => $categorias];
+        }
+
+        return redirect('/');
+    }
+
     /**
      * Store a newly created resource in storage.
      *

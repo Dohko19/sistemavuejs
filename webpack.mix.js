@@ -28,6 +28,6 @@ mix.styles([
         'resources/plantilla/js/template.js'
     ], 'public/js/plantilla.js');
 
-mix.browserSync({
-    proxy: 'http://sistemavuejs.sw/',
-});
+// mix.browserSync({
+//     proxy: 'http://sistemavuejs.sw/',
+// });

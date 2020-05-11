@@ -8,11 +8,14 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
 Route::get('categoria', 'CategoriaController@index');
 Route::post('categoria/registrar', 'CategoriaController@store')->name('categoria.store');
 Route::put('categoria/actualizar', 'CategoriaController@update')->name('categoria.update');
 Route::put('categoria/desactivar', 'CategoriaController@desactivar')->name('categoria.desactivar');
 Route::put('categoria/activar', 'CategoriaController@activar')->name('categoria.activar');
+Route::get('categoria/selectCategoria', 'CategoriaController@selectCategoria');
+
 
 Route::get('articulo', 'ArticuloController@index');
 Route::post('articulo/registrar', 'ArticuloController@store')->name('articulo.store');
