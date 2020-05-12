@@ -42,16 +42,16 @@
                         <tbody>
                         <tr v-for="articulo in arrayArticulo" :key="articulo.id">
                             <td>
-                                <button type="button" @click="abrirModal('articulo','actualizar',categoria)" class="btn btn-warning btn-sm">
+                                <button type="button" @click="abrirModal('articulo','actualizar', articulo)" class="btn btn-warning btn-sm">
                                     <i class="icon-pencil"></i>
                                 </button> &nbsp;
                                 <template v-if="articulo.condicion">
-                                    <button type="button" class="btn btn-danger btn-sm" @click="desactivarCategoria(articulo.id)">
+                                    <button type="button" class="btn btn-danger btn-sm" @click="desactivarArticulo(articulo.id)">
                                         <i class="icon-trash"></i>
                                     </button>
                                 </template>
                                 <template v-else>
-                                    <button type="button" class="btn btn-sm" @click="activarCategoria(articulo.id)">
+                                    <button type="button" class="btn btn-sm" @click="activarArticulo(articulo.id)">
                                         <i class="icon-check"></i>
                                     </button>
                                 </template>
@@ -109,7 +109,7 @@
                         <div class="modal-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" :for="idcategoria">Categoria</label>
+                                    <label class="col-md-3 form-control-label" for="">Categoria</label>
                                     <div class="col-md-9">
                                         <select class="form-control" v-model="idcategoria">
                                             <option value="0" disabled>Seleccione</option>
@@ -121,30 +121,33 @@
                                     <label class="col-md-3 form-control-label" for="email-input">Codigo</label>
                                     <div class="col-md-9">
                                         <input type="text" v-model="codigo" class="form-control" placeholder="Codigo de Barras">
+                                        <barcode :value="codigo" :options="{ format: 'EAN-13'}">
+                                            Generando Codigo de Barras
+                                        </barcode>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="email-input">Nombre</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de Articulo">
+                                        <input type="text" v-model="nombre" class="form-control" placeholder="Nombre">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="email-input">Precio de Venta</label>
                                     <div class="col-md-9">
-                                        <input type="number" v-model="precio_venta" class="form-control" placeholder="Nombre de Articulo">
+                                        <input type="number" v-model="precio_venta" class="form-control" placeholder="Precio de Venta">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="email-input">Stock</label>
                                     <div class="col-md-9">
-                                        <input type="number" v-model="stock" class="form-control" placeholder="Nombre de Articulo">
+                                        <input type="number" v-model="stock" class="form-control" placeholder="Stock">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="email-input">Descripcion</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="descripcion" class="form-control" placeholder="Nombre de Articulo">
+                                        <input type="text" v-model="descripcion" class="form-control" placeholder="Descripcion">
                                     </div>
                                 </div>
                                 <div v-show="errorArticulo" class="form-group row div-error">
@@ -174,6 +177,7 @@
 </template>
 
 <script>
+    import VueBarcode from 'vue-barcode';
     export default {
         data (){
             return {
@@ -204,6 +208,9 @@
                 buscar: '',
                 ArrayCategoria: [],
             }
+        },
+        components: {
+            'barcode': VueBarcode
         },
         computed: {
             isActived: function () {
@@ -281,7 +288,7 @@
                 }).then(res => {
                     me.cerrarModal();
                     me.listarArticulo(1,'','nombre');
-                    toastr["success"]("Categoria registrada correctamente", "Realizado")
+                    toastr["success"]("Articulo registrado correctamente", "Realizado")
 
                     toastr.options = {
                         "closeButton": false,
@@ -304,26 +311,48 @@
                     console.log(err);
                 });
             },
-            actualizarCategoria(){
-                if (this.validarCategoria()){
+            actualizarArticulo(){
+                if (this.validarArticulo()){
                     return;
                 }
 
                 let me = this;
 
-                axios.put('/categoria/actualizar',{
+                axios.put('/articulo/actualizar',{
+                    'idcategoria': this.idcategoria,
+                    'codigo': this.codigo,
                     'nombre': this.nombre,
+                    'stock': this.stock,
+                    'precio_venta': this.precio_venta,
                     'descripcion': this.descripcion,
-                    'id': this.categoria_id,
+                    'id': this.articulo_id,
                 }).then(res => {
                     me.cerrarModal();
-                    me.listarCategoria(1,'','nombre');
-                    this.$swal('La categoria se Actializo Correctamente');
+                    me.listarArticulo(1,'','nombre');
+                    toastr["success"]("Articulo actualizado correctamente", "Realizado")
+
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": true,
+                        "positionClass": "toast-top-full-width",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
                 }).catch(err => {
                     console.log(err);
                 });
             },
-            desactivarCategoria(id){
+            desactivarArticulo(id){
                 const swalWithBootstrapButtons = swal.mixin({
                     customClass: {
                         confirmButton: 'btn btn-success',
@@ -333,7 +362,7 @@
                 })
 
                 swalWithBootstrapButtons.fire({
-                    title: 'Estas seguro de desactivar esta categoria?',
+                    title: 'Estas seguro de desactivar este articulo?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Aceptar',
@@ -343,10 +372,10 @@
                     if (result.value) {
                         let me = this;
 
-                        axios.put('/categoria/desactivar',{
+                        axios.put('/articulo/desactivar',{
                             'id': id,
                         }).then(res => {
-                            me.listarCategoria(1,'','nombre');
+                            me.listarArticulo(1,'','nombre');
                             const Toast = swal.mixin({
                                 toast: true,
                                 position: 'top-end',
@@ -359,7 +388,7 @@
                                 }
                             })
 
-                            toastr["success"]("Categoria desactivada correctamente", "Realizado")
+                            toastr["warning"]("Articulo desactivado correctamente", "Realizado")
 
                             toastr.options = {
                                 "closeButton": false,
@@ -388,7 +417,7 @@
                     }
                 })
             },
-            activarCategoria(id){
+            activarArticulo(id){
                 const swalWithBootstrapButtons = swal.mixin({
                     customClass: {
                         confirmButton: 'btn btn-success',
@@ -398,7 +427,7 @@
                 })
 
                 swalWithBootstrapButtons.fire({
-                    title: 'Estas seguro de activar esta categoria?',
+                    title: 'Estas seguro de activar este Articulo?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Aceptar',
@@ -408,10 +437,10 @@
                     if (result.value) {
                         let me = this;
 
-                        axios.put('/categoria/activar',{
+                        axios.put('/articulo/activar',{
                             'id': id,
                         }).then(res => {
-                            me.listarCategoria(1,'','nombre');
+                            me.listarArticulo(1,'','nombre');
                             const Toast = swal.mixin({
                                 toast: true,
                                 position: 'top-end',
@@ -424,7 +453,7 @@
                                 }
                             })
 
-                            toastr["success"]("Categoria activada correctamente", "Realizado")
+                            toastr["info"]("Articulo activado correctamente", "Realizado")
 
                             toastr.options = {
                                 "closeButton": false,
@@ -457,7 +486,7 @@
                 this.errorArticulo=0;
                 this.errorMostrarMsjArticulo =[];
 
-                if (!this.idcategoria==0) this.errorMostrarMsjArticulo.push("Seleccione una categoria.");
+                if (this.idcategoria==0) this.errorMostrarMsjArticulo.push("Seleccione una categoria.");
                 if (!this.nombre) this.errorMostrarMsjArticulo.push("El nombre de la categoría no puede estar vacío.");
                 if (!this.stock) this.errorMostrarMsjArticulo.push("El stock del articulo debe ser un numero y no puede estar vacio.");
                 if (!this.precio_venta) this.errorMostrarMsjArticulo.push("El precio de venta del articulo debe ser un numero y no puede estar vacio.");
@@ -499,6 +528,7 @@
                             }
                             case 'actualizar':
                             {
+                                console.log(data);
                                 this.modal = 1;
                                 this.tituloModal = 'Actualizar Articulo';
                                 this.tipoAccion = 2;

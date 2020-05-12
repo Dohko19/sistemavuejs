@@ -36,7 +36,7 @@
     </div>
 
 
-    <footer class="app-footer">
+    <footer class="app-footer footer-fixed">
         <span><a href="http://www.incanatoit.com/">IncanatoIT</a> &copy; 2017</span>
         <span class="ml-auto">Desarrollado por asd<a href="http://www.incanatoit.com/">IncanatoIT</a></span>
     </footer>
