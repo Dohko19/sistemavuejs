@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Categoria;
 use Illuminate\Http\Request;
 use App\Articulo;
+use Illuminate\Support\Facades\DB;
 
 class ArticuloController extends Controller
 {
@@ -32,9 +33,10 @@ class ArticuloController extends Controller
             {
                 $articulos = Articulo::join('categorias', 'articulos.idcategoria', '=', 'categorias.id')
                     ->select('articulos.id', 'articulos.idcategoria', 'articulos.codigo', 'articulos.nombre', 'categorias.nombre as nombre_categoria', 'articulos.precio_venta', 'articulos.stock', 'articulos.descripcion', 'articulos.condicion')
-                    ->where('articulos.'.$criterio, 'LIKE', '%'. 'articulos.'.$buscar .'%')
+                    ->where('articulos.'.$criterio, 'LIKE', '%'. $buscar .'%')
                     ->orderBy('articulos.id', 'DESC')->paginate(5);
 
+//                dd($articulos);
             }
             return ['pagination'=> [
                 'total' => $articulos->total(),

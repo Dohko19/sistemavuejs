@@ -22,3 +22,8 @@ Route::post('articulo/registrar', 'ArticuloController@store')->name('articulo.st
 Route::put('articulo/actualizar', 'ArticuloController@update')->name('articulo.update');
 Route::put('articulo/desactivar', 'ArticuloController@desactivar')->name('articulo.desactivar');
 Route::put('articulo/activar', 'ArticuloController@activar')->name('articulo.activar');
+
+
+Route::get('cliente', 'ClienteController@index');
+Route::post('cliente/registrar', 'ClienteController@store')->name('cliente.store');
+Route::put('cliente/actualizar', 'ClienteController@update')->name('cliente.update');
