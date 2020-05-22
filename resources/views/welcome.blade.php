@@ -22,7 +22,7 @@
         <h1>CONTENIDO  DEL MENU 3</h1>
     </template>
     <template v-if="menu==4">
-        <h1>CONTENIDO  DEL MENU 4</h1>
+        <proveedor></proveedor>
     </template>
     <template v-if="menu==5">
         <h1>CONTENIDO  DEL MENU 5</h1>
