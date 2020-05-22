@@ -27,3 +27,7 @@ Route::put('articulo/activar', 'ArticuloController@activar')->name('articulo.act
 Route::get('cliente', 'ClienteController@index');
 Route::post('cliente/registrar', 'ClienteController@store')->name('cliente.store');
 Route::put('cliente/actualizar', 'ClienteController@update')->name('cliente.update');
+
+Route::get('proveedor', 'ProveedorController@index');
+Route::post('proveedor/registrar', 'ProveedorController@store')->name('proveedor.store');
+Route::put('proveedor/actualizar', 'ProveedorController@update')->name('proveedor.update');
