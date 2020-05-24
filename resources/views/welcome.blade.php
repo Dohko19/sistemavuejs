@@ -34,7 +34,7 @@
         <h1>CONTENIDO  DEL MENU 7</h1>
     </template>
     <template v-if="menu==8">
-        <h1>CONTENIDO  DEL MENU 8</h1>
+        <rol></rol>
     </template>
     <template v-if="menu==9">
         <h1>CONTENIDO  DEL MENU 9</h1>

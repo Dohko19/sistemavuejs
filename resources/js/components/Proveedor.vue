@@ -127,6 +127,18 @@
                                     <input type="email" v-model="email" class="form-control" placeholder="Email">
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="contcto">Contacto</label>
+                                <div class="col-md-9">
+                                    <input type="tex" v-model="contacto" class="form-control" placeholder="Nombre de Contacto">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="contcto">Telefono de Contacto</label>
+                                <div class="col-md-9">
+                                    <input type="tex" v-model="telefono_contacto" class="form-control" placeholder="Telefono de Contacto">
+                                </div>
+                            </div>
                             <div v-show="errorPersona" class="form-group row div-error">
                                 <div class="text-center text-error">
                                     <div v-for="error in errorMostrarMsjPersona" :key="error" v-text="error">
@@ -240,19 +252,23 @@
 
                 let me = this;
 
-                axios.post('/cliente/registrar',{
+                axios.post('/proveedor/registrar',{
                     'nombre': this.nombre,
                     'tipo_documento': this.tipo_documento,
                     'num_documento' : this.num_documento,
                     'direccion' : this.direccion,
                     'telefono' : this.telefono,
-                    'email' : this.email
+                    'email' : this.email,
+                    'contacto': this.contacto,
+                    'telefono_contacto': this.telefono_contacto,
+
                 }).then(function (response) {
                     me.cerrarModal();
                     me.listarPersona(1,'','nombre');
-                    toastr["success"]("Cliente registrado correctamente", "Realizado")
+                    console.log(response);
+                    toastr["success"]("Cliente registrado correctamente", "Realizado");
                 }).catch(function (error) {
-                    console.log(error);
+                    toastr["success"]("Hubo un Error al registrar los datos" + error, "Error Improvisado");
                 });
             },
             actualizarPersona(){
@@ -262,14 +278,16 @@
 
                 let me = this;
 
-                axios.put('/cliente/actualizar',{
+                axios.put('/proveedor/actualizar',{
                     'nombre': this.nombre,
                     'tipo_documento': this.tipo_documento,
                     'num_documento' : this.num_documento,
                     'direccion' : this.direccion,
                     'telefono' : this.telefono,
                     'email' : this.email,
-                    'id': this.persona_id
+                    'id': this.persona_id,
+                    'contacto': this.contacto,
+                    'telefono_contacto': this.telefono_contacto,
                 }).then(function (response) {
                     me.cerrarModal();
                     me.listarPersona(1,'','nombre');
@@ -297,6 +315,8 @@
                 this.direccion='';
                 this.telefono='';
                 this.email='';
+                this.contacto='';
+                this.telefono_contacto='';
                 this.errorPersona=0;
 
             },
@@ -308,13 +328,15 @@
                             case 'registrar':
                             {
                                 this.modal = 1;
-                                this.tituloModal = 'Registrar Cliente';
+                                this.tituloModal = 'Registrar Proveedor';
                                 this.nombre= '';
-                                this.tipo_documento='DNI';
+                                this.tipo_documento='RUC';
                                 this.num_documento='';
                                 this.direccion='';
                                 this.telefono='';
                                 this.email='';
+                                this.contacto = '';
+                                this.telefono_contacto = '';
                                 this.tipoAccion = 1;
                                 break;
                             }
@@ -331,6 +353,8 @@
                                 this.direccion = data['direccion'];
                                 this.telefono = data['telefono'];
                                 this.email = data['email'];
+                                this.contacto = data['contacto'];
+                                this.telefono_contacto = data['telefono_contacto'];
                                 break;
                             }
                         }

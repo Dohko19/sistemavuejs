@@ -31,3 +31,5 @@ Route::put('cliente/actualizar', 'ClienteController@update')->name('cliente.upda
 Route::get('proveedor', 'ProveedorController@index');
 Route::post('proveedor/registrar', 'ProveedorController@store')->name('proveedor.store');
 Route::put('proveedor/actualizar', 'ProveedorController@update')->name('proveedor.update');
+
+Route::get('rol', 'RoleController@index');
