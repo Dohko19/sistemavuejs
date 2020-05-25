@@ -33,3 +33,10 @@ Route::post('proveedor/registrar', 'ProveedorController@store')->name('proveedor
 Route::put('proveedor/actualizar', 'ProveedorController@update')->name('proveedor.update');
 
 Route::get('rol', 'RoleController@index');
+Route::get('rol/selectrol', 'RoleController@selectRol');
+
+Route::get('user', 'UserController@index');
+Route::post('user/registrar', 'UserController@store')->name('user.store');
+Route::put('user/actualizar', 'UserController@update')->name('user.update');
+Route::put('user/desactivar', 'UserController@desactivar')->name('user.desactivar');
+Route::put('user/activar', 'UserController@activar')->name('user.activar');
