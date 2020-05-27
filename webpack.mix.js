@@ -21,8 +21,8 @@ mix.styles([
 ], 'public/css/plantilla.css')
     .scripts([
         'resources/plantilla/js/jquery.min.js',
-        'resources/plantilla/js/popper.min.js',
-        'resources/plantilla/js/bootstrap.min.js',
+        // 'resources/plantilla/js/popper.min.js',
+        // 'resources/plantilla/js/bootstrap.min.js',
         'resources/plantilla/js/Chart.min.js',
         'resources/plantilla/js/pace.min.js',
         'resources/plantilla/js/template.js'

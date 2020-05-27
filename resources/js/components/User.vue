@@ -47,7 +47,17 @@
                             <td>
                                 <button type="button" @click="abrirModal('persona','actualizar',persona)" class="btn btn-warning btn-sm">
                                     <i class="icon-pencil"></i>
+                                </button>&nbsp;
+                                <template v-if="persona.condicion == 1">
+                                <button type="button" class="btn btn-danger btn-sm" @click="desactivarUsuario(persona.id)">
+                                    <i class="icon-trash"></i>
                                 </button>
+                                </template>
+                                <template v-else>
+                                    <button type="button" class="btn btn-sm" @click="activarUsuario(persona.id)">
+                                        <i class="icon-check"></i>
+                                    </button>
+                                </template>
                             </td>
                             <td v-text="persona.nombre"></td>
                             <td v-text="persona.tipo_documento"></td>
@@ -404,7 +414,137 @@
                         }
                     }
                 }
-            }
+            },
+            desactivarUsuario(id){
+                const swalWithBootstrapButtons = swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Estas seguro de desactivar este usuario?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        let me = this;
+
+                        axios.put('/user/desactivar',{
+                            'id': id,
+                        }).then(res => {
+                            me.listarPersona(1,'','nombre');
+                            const Toast = swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                                onOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', swal.stopTimer)
+                                    toast.addEventListener('mouseleave', swal.resumeTimer)
+                                }
+                            })
+
+                            toastr["success"]("Usuario desactivado correctamente", "Realizado")
+
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": false,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                        }).catch(err => {
+                            swalWithBootstrapButtons.fire(
+                                'Ocurrio un error!',
+                                ''+err+'',
+                                'error'
+                            )
+                        });
+                    }
+                })
+            },
+            activarUsuario(id){
+                const swalWithBootstrapButtons = swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                })
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Estas seguro de activar este usuario?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        let me = this;
+
+                        axios.put('/user/activar',{
+                            'id': id,
+                        }).then(res => {
+                            me.listarPersona(1,'','nombre');
+                            const Toast = swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                                onOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', swal.stopTimer)
+                                    toast.addEventListener('mouseleave', swal.resumeTimer)
+                                }
+                            })
+
+                            toastr["success"]("Usuario Activado correctamente", "Realizado")
+
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": false,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                        }).catch(err => {
+                            swalWithBootstrapButtons.fire(
+                                'Ocurrio un error!',
+                                ''+err+'',
+                                'error'
+                            )
+                        });
+                    }
+                })
+            },
         },
         mounted() {
             this.listarPersona(1,this.buscar,this.criterio);

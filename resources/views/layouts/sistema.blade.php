@@ -21,7 +21,18 @@
         @include('layouts.partials.header')
 
         <div class="app-body">
-            @include('layouts.partials.sidebar')
+            @if(Auth::check())
+                @if (Auth::user()->idrol == 1)
+                    @include('layouts.partials.sidebaradministrador')
+                @elseif (Auth::user()->idrol == 2)
+                    @include('layouts.partials.sidebarvendedor')
+                @elseif (Auth::user()->idrol == 3)
+                    @include('layouts.partials.sidebaralmacenero')
+                @else
+
+                @endif
+
+            @endif
 
             <!-- Contenido Principal -->
             {{-- <main class="main"> --}}
