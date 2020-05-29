@@ -25,6 +25,8 @@ Route::group([
     Route::put('proveedor/actualizar', 'ProveedorController@update')->name('proveedor.update');
 
     Route::get('ingreso', 'IngresoController@index')->name('ingreso.index');
+    Route::post('ingreso/registrar', 'IngresoController@store')->name('ingreso.store');
+    Route::put('ingreso/desactivar', 'IngresoController@desactivar')->name('ingreso.desactivar');
 });
 
 Route::group([
@@ -77,7 +79,8 @@ Route::group([
         Route::put('user/activar', 'UserController@activar')->name('user.activar');
 
         Route::get('ingreso', 'IngresoController@index')->name('ingreso.index');
-
+        Route::post('ingreso/registrar', 'IngresoController@store')->name('ingreso.store');
+        Route::put('ingreso/desactivar', 'IngresoController@desactivar')->name('ingreso.desactivar');
     });
 
 Auth::routes(['register' => false]);

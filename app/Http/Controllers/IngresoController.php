@@ -85,52 +85,12 @@ class IngresoController extends Controller
 
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Persona  $Persona
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request)
-    {
-        if (!$request->ajax()) return redirect('/');
-
-        try {
-            DB::beginTransaction();
-
-            $user = User::findOrFail($request->id);
-
-            $persona = Persona::findOrFail($user->id);
-
-            $persona->nombre = $request->nombre;
-            $persona->tipo_documento = $request->tipo_documento;
-            $persona->num_documento = $request->num_documento;
-            $persona->direccion = $request->direccion;
-            $persona->telefono = $request->telefono;
-            $persona->email = $request->email;
-            $persona->save();
-
-            $user->usuario = $request->usuario;
-            if($request->filled('password'))
-            {
-                $user->password = bcrypt($request->password);
-            }
-            $user->condicion = 1;
-            $user->idrol = $request->idrol;
-            $user->save();
-
-            DB::commit();
-        } catch (\Exception $e){
-            DB::rollBack();
-        }
-    }
 
     public function desactivar(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
-        $user = User::findOrFail($request->id);
-        $user->condicion = '0';
+        $user = Ingreso::findOrFail($request->id);
+        $user->estado = 'Anulado';
         $user->save();
     }
 
