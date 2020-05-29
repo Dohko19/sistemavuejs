@@ -24,6 +24,7 @@ Route::group([
     Route::post('proveedor/registrar', 'ProveedorController@store')->name('proveedor.store');
     Route::put('proveedor/actualizar', 'ProveedorController@update')->name('proveedor.update');
 
+    Route::get('ingreso', 'IngresoController@index')->name('ingreso.index');
 });
 
 Route::group([
@@ -74,6 +75,8 @@ Route::group([
         Route::put('user/actualizar', 'UserController@update')->name('user.update');
         Route::put('user/desactivar', 'UserController@desactivar')->name('user.desactivar');
         Route::put('user/activar', 'UserController@activar')->name('user.activar');
+
+        Route::get('ingreso', 'IngresoController@index')->name('ingreso.index');
 
     });
 
