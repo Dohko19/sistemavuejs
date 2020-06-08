@@ -9,11 +9,12 @@
             <div class="card">
                 <div class="card-header">
                     <i class="fa fa-align-justify"></i> Ingreso
-                    <button type="button" @click="abrirModal('persona','registrar')" class="btn btn-secondary">
+                    <button type="button" @click="mostrarDetalle()" class="btn btn-secondary">
                         <i class="icon-plus"></i>&nbsp;Nuevo
                     </button>
                 </div>
-                <div class="card-body">
+                <template v-if="listado == 1">
+                    <div class="card-body">
                     <div class="form-group row">
                         <div class="col-md-6">
                             <div class="input-group">
@@ -27,48 +28,52 @@
                             </div>
                         </div>
                     </div>
-                    <table class="table table-bordered table-striped table-sm">
-                        <thead>
-                        <tr>
-                            <th>Opciones</th>
-                            <th>Nombre</th>
-                            <th>Tipo Documento</th>
-                            <th>Número</th>
-                            <th>Dirección</th>
-                            <th>Teléfono</th>
-                            <th>Email</th>
-                            <th>Usuario</th>
-                            <th>Rol</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-for="persona in arrayPersona" :key="persona.id">
-                            <td>
-                                <button type="button" @click="abrirModal('persona','actualizar',persona)" class="btn btn-warning btn-sm">
-                                    <i class="icon-pencil"></i>
-                                </button>&nbsp;
-                                <template v-if="persona.condicion == 1">
-                                <button type="button" class="btn btn-danger btn-sm" @click="desactivarUsuario(persona.id)">
-                                    <i class="icon-trash"></i>
-                                </button>
-                                </template>
-                                <template v-else>
-                                    <button type="button" class="btn btn-sm" @click="activarUsuario(persona.id)">
-                                        <i class="icon-check"></i>
-                                    </button>
-                                </template>
-                            </td>
-                            <td v-text="persona.nombre"></td>
-                            <td v-text="persona.tipo_documento"></td>
-                            <td v-text="persona.num_documento"></td>
-                            <td v-text="persona.direccion"></td>
-                            <td v-text="persona.telefono"></td>
-                            <td v-text="persona.email"></td>
-                            <td v-text="persona.usuario"></td>
-                            <td v-text="persona.rol"></td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-sm">
+                            <thead>
+                            <tr>
+                                <th>Opciones</th>
+                                <th>Usuario</th>
+                                <th>Proveedor</th>
+                                <th>Tipo de Comprobante</th>
+                                <th>Serie Comprobante</th>
+                                <th># Comprbante</th>
+                                <th>Fecha Hora</th>
+                                <th>Total</th>
+                                <th>Impuesto</th>
+                                <th>Estado</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="ingreso in arrayIngreso" :key="ingreso.id">
+                                <td>
+                                    <button type="button" @click="abrirModal('ingreso','actualizar',ingreso)" class="btn btn-success btn-sm">
+                                        <i class="icon-eye"></i>
+                                    </button>&nbsp;
+                                    <template v-if="ingreso.estado == 'Registrado'">
+                                        <button type="button" class="btn btn-danger btn-sm" @click="desactivarIngreso(ingreso.id)">
+                                            <i class="icon-trash"></i>
+                                        </button>
+                                    </template>
+                                    <template v-else>
+                                        <button type="button" class="btn btn-sm" @click="activarUsuario(persona.id)">
+                                            <i class="icon-check"></i>
+                                        </button>
+                                    </template>
+                                </td>
+                                <td v-text="ingreso.usuario"></td>
+                                <td v-text="ingreso.nombre"></td>
+                                <td v-text="ingreso.tipo_comprobante"></td>
+                                <td v-text="ingreso.serie_comprobante"></td>
+                                <td v-text="ingreso.num_comprobante"></td>
+                                <td v-text="ingreso.fecha_hora"></td>
+                                <td v-text="ingreso.total"></td>
+                                <td v-text="ingreso.impuesto"></td>
+                                <td v-text="ingreso.estado"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <nav>
                         <ul class="pagination">
                             <li class="page-item" v-if="pagination.current_page > 1">
@@ -82,7 +87,144 @@
                             </li>
                         </ul>
                     </nav>
+
                 </div>
+                </template>
+                    <template v-else>
+                        <div class="card-body">
+                        <div class="form-group row border">
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <label for="Proveedor">Proveedor(*)</label>
+                                    <v-select
+                                    @search="selectProveedor"
+                                    label="nombre"
+                                    :options="arrayProveedor"
+                                    placeholder="Buscar proveedor..."
+                                    @input="getDatosProveedor">
+                                    >
+
+                                    </v-select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="">Impuesto(*)</label>
+                                <input type="text" class="form-control" v-model="impuesto">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="">Tipo Comprobante(*)</label>
+                                    <select class="form-control" v-model="tipo_comprobante">
+                                        <option value="0" selected>SELECCIONE</option>
+                                        <option value="BOLETA">Boleta</option>
+                                        <option value="FACTURA">Factura</option>
+                                        <option value="TICKET">Ticket</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Serie Comprobante</label>
+                                    <input type="text" class="form-control" v-model="serie_comprobante" placeholder="00x">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Numero Comprobante(*)</label>
+                                    <input type="text" class="form-control" v-model="num_comprobante" placeholder="000xx">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row border">
+                            <div class="col-md-6">
+                                <label>Articulo</label>
+                                <div class="form-inline">
+                                    <input type="text" class="form-control" v-model="codigo" placeholder="Ingrese Articulo">
+                                    <button class="btn btn-primary">...</button>
+                                    <input type="text" readonly class="form-control" v-model="articulo">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Precio</label>
+                                    <input type="number" step="any" class="form-control" v-model="precio">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Cantidad</label>
+                                    <input type="number" class="form-control" v-model="cantidad">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <button class="btn btn-success form-control btnagregar">
+                                        <i class="icon-plus"></i>&nbsp;Nuevo
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="card-body">
+                            <div class="form-group row border">
+                                <div class="table-responsive col-md-12">
+                                    <table class="table table-bordered table-striped table-sm">
+                                        <thead>
+                                        <tr>
+                                            <th>Opciones</th>
+                                            <th>Articulo</th>
+                                            <th>Precio</th>
+                                            <th>Cantidad</th>
+                                            <th>Subtotal</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                <button type="button" class="btn btn-danger btn-sm">
+                                                    <i class="icon-close"></i>
+                                                </button>
+                                            </td>
+                                            <td>
+                                                Articulo
+                                            </td>
+                                            <td>
+                                                <input type="number" value="3" class="form-control">
+                                            </td>
+                                            <td>
+                                                <input type="number" value="2" class="form-control">
+                                            </td>
+                                            <td>
+                                                $ 6.00
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #CEECF5">
+                                            <td colspan="4" align="right"><strong>Total Parcial:</strong></td>
+                                            <td>$ 5</td>
+                                        </tr>
+                                        <tr style="background-color: #CEECF5">
+                                            <td colspan="4" align="right"><strong>Total Impuesto:</strong></td>
+                                            <td>$ 5</td>
+                                        </tr>
+                                        <tr style="background-color: #CEECF5">
+                                            <td colspan="4" align="right"><strong>Total Neto:</strong></td>
+                                            <td>$ 5</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <button type="button" @click="ocultarDetalle()" class="btn btn-secondnay">Cerrar</button>
+                                    <button type="button" class="btn btn-primary" @click="registerIngreso()">Registrar Compra</button>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+<!--                    Fin detalle-->
             </div>
             <!-- Fin ejemplo de tabla Listado -->
         </div>
@@ -97,77 +239,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
-                            <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Nombre (*)</label>
-                                <div class="col-md-9">
-                                    <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de la persona">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Tipo Documento</label>
-                                <div class="col-md-9">
-                                    <select v-model="tipo_documento" class="form-control">
-                                        <option value="DNI">DNI</option>
-                                        <option value="RUC">RUC</option>
-                                        <option value="PASS">PASS</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">Número</label>
-                                <div class="col-md-9">
-                                    <input type="text" v-model="num_documento" class="form-control" placeholder="Número de documento">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="email-input">Dirección</label>
-                                <div class="col-md-9">
-                                    <input type="text" v-model="direccion" class="form-control" placeholder="Dirección">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="email-input">Teléfono</label>
-                                <div class="col-md-9">
-                                    <input type="text" v-model="telefono" class="form-control" placeholder="Teléfono">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="email-input">Email</label>
-                                <div class="col-md-9">
-                                    <input type="email" v-model="email" class="form-control" placeholder="Email">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="email-input">Rol (*)</label>
-                                <div class="col-md-9">
-                                    <select v-model="idrol" class="form-control" id="">
-                                        <option value="0">Selecciona Un Rol</option>
-                                        <option v-for="rol in arrayRol" :key="rol.id" :value="rol.id" v-text="rol.nombre"></option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="email-input">Usuario (*)</label>
-                                <div class="col-md-9">
-                                    <input type="text" v-model="usuario" class="form-control" placeholder="Nombre de Usuario">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="email-input">Passowrd (*)</label>
-                                <div class="col-md-9">
-                                    <input type="password" required v-model="password" class="form-control" placeholder="Password de Acceso">
-                                </div>
-                            </div>
-                            <div v-show="errorPersona" class="form-group row div-error">
-                                <div class="text-center text-error">
-                                    <div v-for="error in errorMostrarMsjPersona" :key="error" v-text="error">
 
-                                    </div>
-                                </div>
-                            </div>
-
-                        </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
@@ -190,13 +262,15 @@
                 ingreso_id: 0,
                 idproveedor: 0,
                 nombre : '',
-                tipo_comprobante : 'Boleta',
+                tipo_comprobante : 'BOLETA',
                 serie_comprobante : '',
                 num_comprobante : '',
                 impuesto: 0.18,
                 total: 0.0,
                 arrayIngreso: [],
                 arrayDetalle: [],
+                arrayProveedor: [],
+                listado: 1,
                 modal : 0,
                 tituloModal : '',
                 tipoAccion : 0,
@@ -245,35 +319,43 @@
             }
         },
         methods : {
-            listarPersona (page,buscar,criterio){
+            listarIngreso (page,buscar,criterio){
                 let me=this;
-                var url= '/user?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
+                var url= '/ingreso?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
-                    me.arrayPersona = respuesta.personas.data;
+                    me.arrayIngreso = respuesta.ingresos.data;
                     me.pagination= respuesta.pagination;
                 })
                     .catch(function (error) {
                         console.log(error);
                     });
             },
-            selectRol(){
-                let me=this;
-                var url= '/rol/selectrol';
-                axios.get(url).then(function (response) {
-                    var respuesta= response.data;
-                    me.arrayRol = respuesta.roles;
+            selectProveedor(search,loading){
+              let me = this;
+              loading(true)
+              var url = 'proveedor/selectProveedor?filtro='+search;
+              axios.get(url).then(res => {
+                  let respuesta = res.data;
+                  q: search
+                  me.arrayProveedor = respuesta.proveedor;
+                  loading(false)
+              })
+                .catch(err => {
+                    console.log(err);
                 })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+            },
+            getDatosProveedor(val1){
+                let me = this;
+                me.loading = true;
+                me.idproveedor = val1.id;
             },
             cambiarPagina(page,buscar,criterio){
                 let me = this;
                 //Actualiza la página actual
                 me.pagination.current_page = page;
                 //Envia la petición para visualizar la data de esa página
-                me.listarPersona(page,buscar,criterio);
+                me.listarIngreso(page,buscar,criterio);
             },
             registrarPersona(){
                 if (this.validarPersona()){
@@ -352,6 +434,12 @@
                 if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;
 
                 return this.errorPersona;
+            },
+            mostrarDetalle(){
+                this.listado = 0;
+            },
+            ocultarDetalle(){
+                this.listado = 1;
             },
             cerrarModal(){
                 this.modal=0;
@@ -544,7 +632,7 @@
             },
         },
         mounted() {
-            this.listarPersona(1,this.buscar,this.criterio);
+            this.listarIngreso(1,this.buscar,this.criterio);
         }
     }
 </script>
@@ -566,5 +654,11 @@
     .text-error{
         color: red !important;
         font-weight: bold;
+    }
+    @media (min-width: 600px) {
+        .btnagregar {
+            margin-top: 2rem;
+        }
+
     }
 </style>

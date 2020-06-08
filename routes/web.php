@@ -23,6 +23,7 @@ Route::group([
     Route::get('proveedor', 'ProveedorController@index');
     Route::post('proveedor/registrar', 'ProveedorController@store')->name('proveedor.store');
     Route::put('proveedor/actualizar', 'ProveedorController@update')->name('proveedor.update');
+    Route::get('proveedor/selectProveedor', 'ProveedorController@selectProveedor')->name('proveedor.selectProveedor');
 
     Route::get('ingreso', 'IngresoController@index')->name('ingreso.index');
     Route::post('ingreso/registrar', 'IngresoController@store')->name('ingreso.store');
@@ -68,6 +69,7 @@ Route::group([
         Route::get('proveedor', 'ProveedorController@index');
         Route::post('proveedor/registrar', 'ProveedorController@store')->name('proveedor.store');
         Route::put('proveedor/actualizar', 'ProveedorController@update')->name('proveedor.update');
+        Route::get('proveedor/selectProveedor', 'ProveedorController@selectProveedor')->name('proveedor.selectProveedor');
 
         Route::get('rol', 'RoleController@index');
         Route::get('rol/selectrol', 'RoleController@selectRol');

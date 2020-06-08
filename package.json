@@ -31,6 +31,7 @@
         "sweetalert2": "^9.10.12",
         "toastr": "^2.1.4",
         "vue-barcode": "^1.2.0",
+        "vue-select": "^3.10.3",
         "vue-swal": "^1.0.0",
         "vue-sweetalert2": "^3.0.3",
         "vue-toastr-2": "^0.0.10",

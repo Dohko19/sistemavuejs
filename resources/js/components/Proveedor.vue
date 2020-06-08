@@ -230,7 +230,6 @@
                 var url= '/proveedor?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
-                    console.log(respuesta);
                     me.arrayPersona = respuesta.proveedores.data;
                     me.pagination= respuesta.pagination;
                 })
