@@ -52,7 +52,20 @@ class ArticuloController extends Controller
         return redirect('/');
     }
 
+    public function buscarArticulo(Request $request)
+    {
+        $filtro = $request->filtro;
+        $articulos = Articulo::where('codigo', '=', $filtro)
+            ->select('id','nombre')
+            ->orderBy('nombre', 'ASC')
+            ->take(1)
+            ->get();
 
+        if (request()->wantsJson())
+        {
+            return ['articulos' => $articulos];
+        }
+    }
 
     /**
      * Store a newly created resource in storage.

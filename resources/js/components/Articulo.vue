@@ -248,7 +248,7 @@
                 var url = '/articulo?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
                 axios.get(url).then(res => {
                     var respuesta = res.data;
-                    me.arrayArticulo = respuesta.articulo.data;
+                    me.arrayArticulo = respuesta.articulos.data;
                     me.pagination = respuesta.pagination;
                 })
                     .catch(err => {
