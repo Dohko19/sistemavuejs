@@ -1,7 +1,7 @@
 <?php
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 Route::group([
     'middleware' => ['auth','Almacenero']
 ], function (){
@@ -20,6 +20,7 @@ Route::group([
     Route::put('articulo/desactivar', 'ArticuloController@desactivar')->name('articulo.desactivar');
     Route::put('articulo/activar', 'ArticuloController@activar')->name('articulo.activar');
     Route::get('articulo/buscarArticulo', 'ArticuloController@buscarArticulo');
+    Route::get('articulo/listarArticulo', 'ArticuloController@listarArticulo');
 
 
     Route::get('proveedor', 'ProveedorController@index');
@@ -30,6 +31,9 @@ Route::group([
     Route::get('ingreso', 'IngresoController@index')->name('ingreso.index');
     Route::post('ingreso/registrar', 'IngresoController@store')->name('ingreso.store');
     Route::put('ingreso/desactivar', 'IngresoController@desactivar')->name('ingreso.desactivar');
+    Route::get('ingreso/obtenerCabezera', 'IngresoController@obtenerCabezera')->name('ingreso.cabecera');
+    Route::get('ingreso/obtenerDetalles', 'IngresoController@obtenerDetalles')->name('ingreso.detalles');
+
 });
 
 Route::group([
@@ -40,6 +44,18 @@ Route::group([
     Route::get('cliente', 'ClienteController@index');
     Route::post('cliente/registrar', 'ClienteController@store')->name('cliente.store');
     Route::put('cliente/actualizar', 'ClienteController@update')->name('cliente.update');
+    Route::get('cliente/selectCliente', 'ClienteController@selectCliente')->name('cliente.selectcliente');
+
+    Route::get('venta', 'VentaController@index');
+    Route::get('venta', 'VentaController@index');
+    Route::post('venta/registrar', 'VentaController@store')->name('venta.store');
+    Route::put('venta/desactivar', 'VentaController@desactivar')->name('venta.desactivar');
+    Route::get('venta/obtenerCabezera', 'VentaController@obtenerCabezera')->name('venta.cabecera');
+    Route::get('venta/obtenerDetalles', 'VentaController@obtenerDetalles')->name('venta.detalles');
+
+    Route::get('articulo/buscarArticuloVenta', 'ArticuloController@buscarArticuloVenta');
+    Route::get('articulo/listarArticuloVenta', 'ArticuloController@listarArticuloVenta');
+
 
 });
 Route::group([
@@ -63,10 +79,21 @@ Route::group([
             Route::put('articulo/desactivar', 'ArticuloController@desactivar')->name('articulo.desactivar');
             Route::put('articulo/activar', 'ArticuloController@activar')->name('articulo.activar');
             Route::get('articulo/buscarArticulo', 'ArticuloController@buscarArticulo');
+            Route::get('articulo/listarArticulo', 'ArticuloController@listarArticulo');
+            Route::get('articulo/buscarArticuloVenta', 'ArticuloController@buscarArticuloVenta');
+            Route::get('articulo/listarArticuloVenta', 'ArticuloController@listarArticuloVenta');
 
             Route::get('cliente', 'ClienteController@index');
             Route::post('cliente/registrar', 'ClienteController@store')->name('cliente.store');
             Route::put('cliente/actualizar', 'ClienteController@update')->name('cliente.update');
+            Route::get('cliente/selectCliente', 'ClienteController@selectCliente')->name('cliente.selectcliente');
+
+
+            Route::get('venta', 'VentaController@index');
+            Route::post('venta/registrar', 'VentaController@store')->name('venta.store');
+            Route::put('venta/desactivar', 'VentaController@desactivar')->name('venta.desactivar');
+            Route::get('venta/obtenerCabezera', 'VentaController@obtenerCabezera')->name('venta.cabecera');
+            Route::get('venta/obtenerDetalles', 'VentaController@obtenerDetalles')->name('venta.detalles');
 
             Route::get('proveedor', 'ProveedorController@index');
             Route::post('proveedor/registrar', 'ProveedorController@store')->name('proveedor.store');
@@ -85,6 +112,8 @@ Route::group([
             Route::get('ingreso', 'IngresoController@index')->name('ingreso.index');
             Route::post('ingreso/registrar', 'IngresoController@store')->name('ingreso.store');
             Route::put('ingreso/desactivar', 'IngresoController@desactivar')->name('ingreso.desactivar');
+            Route::get('ingreso/obtenerCabezera', 'IngresoController@obtenerCabezera')->name('ingreso.cabecera');
+            Route::get('ingreso/obtenerDetalles', 'IngresoController@obtenerDetalles')->name('ingreso.detalles');
         });
 
 Auth::routes(['register' => false]);

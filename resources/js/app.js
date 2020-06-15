@@ -25,6 +25,7 @@ Vue.component('proveedor', require('./components/Proveedor').default);
 Vue.component('rol', require('./components/Role').default);
 Vue.component('user', require('./components/User').default);
 Vue.component('ingreso', require('./components/Ingreso').default);
+Vue.component('venta', require('./components/Venta').default);
 
 
 const app = new Vue({
