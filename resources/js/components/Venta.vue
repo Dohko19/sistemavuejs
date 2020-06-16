@@ -50,6 +50,9 @@
                                     <button type="button" @click="verVenta(venta.id)" class="btn btn-success btn-sm">
                                         <i class="icon-eye"></i>
                                     </button>&nbsp;
+                                    <button type="button" @click="pdfVenta(venta.id)" class="btn btn-info btn-sm">
+                                        <i class="icon-doc"></i>
+                                    </button>&nbsp;
                                     <template v-if="venta.estado == 'Registrado'">
                                         <button type="button" class="btn btn-danger btn-sm" @click="desactivarVenta(venta.id)">
                                             <i class="icon-trash"></i>
@@ -517,6 +520,9 @@
                         console.log(error);
                     });
             },
+            pdfVenta(id){
+                window.open('http://sistemavuejs.sw/venta/pdf/' + id + ',' + '_blank');
+            },
             selectCliente(search,loading){
               let me = this;
               loading(true)
@@ -723,6 +729,10 @@
                         me.descuento = 0;
                         me.arrayDetalle = [];
                         toastr["success"]("Venta Registrada correctamente", "Realizado");
+
+                        window.open('http://sistemavuejs.sw/venta/pdf/' + response.data.id + ',' + '_blank');
+
+
 
                 }).catch(function (error) {
                     toastr["error"]("Hubo un Error al registrar los datos" + error, "Error Improvisado");

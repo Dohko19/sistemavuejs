@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Categoria;
+use PDF;
 use Illuminate\Http\Request;
 use App\Articulo;
 use Illuminate\Support\Facades\DB;
+
 
 class ArticuloController extends Controller
 {
@@ -106,6 +108,19 @@ class ArticuloController extends Controller
             return [ 'articulos' => $articulos ];
         }
         return redirect('/');
+    }
+
+    public function listarPdf()
+    {
+        $articulos = Articulo::with('categoria')->join('categorias', 'articulos.idcategoria', '=', 'categorias.id')
+            ->select('articulos.id', 'articulos.idcategoria', 'articulos.codigo', 'articulos.nombre',
+                'categorias.nombre as nombre_categoria', 'articulos.precio_venta', 'articulos.stock',
+                'articulos.descripcion', 'articulos.condicion')
+            ->orderBy('articulos.nombre', 'DESC')->get();
+        $con = Articulo::count();
+        $pdf = PDF::loadView('pdf.articulospdf', ['articulos' => $articulos, 'con' => $con]);
+
+        return $pdf->stream('articulos.pdf');
     }
 
     public function buscarArticulo(Request $request)

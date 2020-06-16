@@ -2088,6 +2088,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2165,6 +2168,9 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (err) {
         console.log(err);
       });
+    },
+    cargarPdf: function cargarPdf() {
+      window.open('http://sistemavuejs.sw/articulo/listarPdf', '_blank');
     },
     selectCategoria: function selectCategoria() {
       var me = this;
@@ -5564,6 +5570,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5662,6 +5671,9 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    pdfVenta: function pdfVenta(id) {
+      window.open('http://sistemavuejs.sw/venta/pdf/' + id + ',' + '_blank');
     },
     selectCliente: function selectCliente(search, loading) {
       var me = this;
@@ -5857,6 +5869,7 @@ __webpack_require__.r(__webpack_exports__);
         me.descuento = 0;
         me.arrayDetalle = [];
         toastr["success"]("Venta Registrada correctamente", "Realizado");
+        window.open('http://sistemavuejs.sw/venta/pdf/' + response.data.id + ',' + '_blank');
       })["catch"](function (error) {
         toastr["error"]("Hubo un Error al registrar los datos" + error, "Error Improvisado");
       });
@@ -61095,6 +61108,23 @@ var render = function() {
                 _c("i", { staticClass: "icon-plus" }),
                 _vm._v(" Nuevo\n                ")
               ]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-info",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.cargarPdf()
+                  }
+                }
+              },
+              [
+                _c("i", { staticClass: "icon-doc" }),
+                _vm._v(" Reporte\n                ")
+              ]
             )
           ]),
           _vm._v(" "),
@@ -67028,6 +67058,22 @@ var render = function() {
                                       }
                                     },
                                     [_c("i", { staticClass: "icon-eye" })]
+                                  ),
+                                  _vm._v(
+                                    " \n                                    "
+                                  ),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-info btn-sm",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.pdfVenta(venta.id)
+                                        }
+                                      }
+                                    },
+                                    [_c("i", { staticClass: "icon-doc" })]
                                   ),
                                   _vm._v(
                                     " \n                                    "

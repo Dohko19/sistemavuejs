@@ -21,6 +21,7 @@ Route::group([
     Route::put('articulo/activar', 'ArticuloController@activar')->name('articulo.activar');
     Route::get('articulo/buscarArticulo', 'ArticuloController@buscarArticulo');
     Route::get('articulo/listarArticulo', 'ArticuloController@listarArticulo');
+    Route::get('articulo/listarPdf', 'ArticuloController@listarPdf')->name('articulo.pdf');
 
 
     Route::get('proveedor', 'ProveedorController@index');
@@ -52,6 +53,7 @@ Route::group([
     Route::put('venta/desactivar', 'VentaController@desactivar')->name('venta.desactivar');
     Route::get('venta/obtenerCabezera', 'VentaController@obtenerCabezera')->name('venta.cabecera');
     Route::get('venta/obtenerDetalles', 'VentaController@obtenerDetalles')->name('venta.detalles');
+    Route::get('venta/pdf/{id}', 'VentaController@pdf')->name('venta.pdf');
 
     Route::get('articulo/buscarArticuloVenta', 'ArticuloController@buscarArticuloVenta');
     Route::get('articulo/listarArticuloVenta', 'ArticuloController@listarArticuloVenta');
@@ -82,6 +84,7 @@ Route::group([
             Route::get('articulo/listarArticulo', 'ArticuloController@listarArticulo');
             Route::get('articulo/buscarArticuloVenta', 'ArticuloController@buscarArticuloVenta');
             Route::get('articulo/listarArticuloVenta', 'ArticuloController@listarArticuloVenta');
+            Route::get('articulo/listarPdf', 'ArticuloController@listarPdf')->name('articulo.pdf');
 
             Route::get('cliente', 'ClienteController@index');
             Route::post('cliente/registrar', 'ClienteController@store')->name('cliente.store');
@@ -94,6 +97,7 @@ Route::group([
             Route::put('venta/desactivar', 'VentaController@desactivar')->name('venta.desactivar');
             Route::get('venta/obtenerCabezera', 'VentaController@obtenerCabezera')->name('venta.cabecera');
             Route::get('venta/obtenerDetalles', 'VentaController@obtenerDetalles')->name('venta.detalles');
+            Route::get('venta/pdf/{id}', 'VentaController@pdf')->name('venta.pdf');
 
             Route::get('proveedor', 'ProveedorController@index');
             Route::post('proveedor/registrar', 'ProveedorController@store')->name('proveedor.store');

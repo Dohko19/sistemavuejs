@@ -12,6 +12,6 @@ class Articulo extends Model
 
     public function categoria()
     {
-        return $this->belongsTo(Categoria::class, 'idcategoria');
+        return $this->belongsTo(Categoria::class);
     }
 }
