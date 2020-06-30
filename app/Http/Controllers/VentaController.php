@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\DetalleVenta;
+use App\Notifications\NotifyAdmin;
+use App\User;
 use App\Venta;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -146,6 +148,26 @@ class VentaController extends Controller
             }
 
             DB::commit();
+            $fechaActual = Carbon::now()->format('Y-m-d');
+            $numventas = DB::table('ventas')->whereDate('created_at', $fechaActual)->count();
+            $numIngresos = DB::table('ingresos')->whereDate('created_at', $fechaActual)->count();
+
+            $arregloDatos = [
+                'ventas' => [
+                    'numero' => $numventas,
+                    'msj' => 'Ventas'
+                ],
+                'ingresos' => [
+                    'numero' => $numIngresos,
+                    'msj' => 'Ingresos'
+                ]
+            ];
+            $allUsers = User::all();
+
+            foreach ($allUsers as $notificar)
+            {
+                User::findOrFail($notificar->id)->notify(new NotifyAdmin($arregloDatos));
+            }
             return [
                 'id' => $venta->id
             ];

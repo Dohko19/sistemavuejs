@@ -729,11 +729,6 @@
                         me.descuento = 0;
                         me.arrayDetalle = [];
                         toastr["success"]("Venta Registrada correctamente", "Realizado");
-
-                        window.open('http://sistemavuejs.sw/venta/pdf/' + response.data.id + ',' + '_blank');
-
-
-
                 }).catch(function (error) {
                     toastr["error"]("Hubo un Error al registrar los datos" + error, "Error Improvisado");
                 });

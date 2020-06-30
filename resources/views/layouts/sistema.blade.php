@@ -10,6 +10,8 @@
     <link rel="shortcut icon" href="/img/favicon.png">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="userId" content="{{ Auth::user()->id }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 
     <title>Sistema Ventas - IncanatoIT</title>
     <!-- Icons -->

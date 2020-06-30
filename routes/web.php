@@ -3,10 +3,16 @@
 //    return view('welcome');
 //});
 Route::group([
+    'middleware' => ['auth', 'Administrador']
+],
+    function () {
+    Route::get('notification/get', 'NotificationController@get');
+    });
+Route::group([
     'middleware' => ['auth','Almacenero']
 ], function (){
     Route::get('/', 'HomeController@index')->name('home');
-
+    Route::get('dashboard', 'DashboardController');
     Route::get('categoria', 'CategoriaController@index');
     Route::post('categoria/registrar', 'CategoriaController@store')->name('categoria.store');
     Route::put('categoria/actualizar', 'CategoriaController@update')->name('categoria.update');
@@ -41,13 +47,13 @@ Route::group([
     'middleware' => ['auth','Vendedor']
 ], function (){
     Route::get('/', 'HomeController@index')->name('home');
+    Route::get('dashboard', 'DashboardController');
 
     Route::get('cliente', 'ClienteController@index');
     Route::post('cliente/registrar', 'ClienteController@store')->name('cliente.store');
     Route::put('cliente/actualizar', 'ClienteController@update')->name('cliente.update');
     Route::get('cliente/selectCliente', 'ClienteController@selectCliente')->name('cliente.selectcliente');
 
-    Route::get('venta', 'VentaController@index');
     Route::get('venta', 'VentaController@index');
     Route::post('venta/registrar', 'VentaController@store')->name('venta.store');
     Route::put('venta/desactivar', 'VentaController@desactivar')->name('venta.desactivar');
@@ -66,6 +72,7 @@ Route::group([
         function () {
 
             Route::get('/', 'HomeController@index')->name('home');
+            Route::get('dashboard', 'DashboardController');
 
             Route::get('categoria', 'CategoriaController@index');
             Route::post('categoria/registrar', 'CategoriaController@store')->name('categoria.store');
